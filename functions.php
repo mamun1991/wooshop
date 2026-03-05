@@ -1,5 +1,45 @@
 <?php
 
+use Carbon_Fields\Container;
+use Carbon_Fields\Field;
+
+add_action( 'carbon_fields_register_fields', 'crb_attach_theme_options' );
+function crb_attach_theme_options() {
+    Container::make( 'theme_options', __( 'Theme Options' ) )
+        ->add_fields( array(
+            Field::make( 'text', 'crb_text', 'Text Field' ),
+        ) );    
+
+        Container::make( 'theme_options', __( 'Social Media' ) )
+            ->add_fields( array(
+                Field::make( 'text', 'crb_facebook_url', __( 'Facebook URL' ) ),
+                Field::make( 'text', 'crb_twitter_url', __( 'Twitter URL' ) ),
+                Field::make( 'text', 'crb_instagram_url', __( 'Instagram URL' ) ),
+            ) );
+
+        Container::make('nav_menu_item', __('Menu Settings'))
+            ->add_fields(array(
+                Field::make('color', 'crb_color', __('Menu Color')),
+            ));
+}
+
+add_action('after_setup_theme', 'crb_load');
+function crb_load() {
+    \Carbon_Fields\Carbon_Fields::boot();
+}
+
+add_filter('nav_menu_link_attributes', 'mytheme_menu_color', 10, 3);
+
+function mytheme_menu_color($atts, $item, $args) {
+
+    $color = carbon_get_nav_menu_item_meta($item->ID, 'crb_color');
+
+    if ($color) {
+        $atts['style'] = 'color:' . esc_attr($color);
+    }
+
+    return $atts;
+}
 
 function theme_assets() {
     wp_enqueue_style(

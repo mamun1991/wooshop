@@ -8,13 +8,25 @@
                 <span class="material-symbols-outlined text-2xl">flare</span>
                 <h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold">VibeLife</h2>
               </div>
-              <p class="text-slate-500 dark:text-slate-400 max-w-sm mb-6">
+              <p class="text-slate-500 dark:text-slate-400 max-w-sm mb-8">
                 Modern lifestyle essentials for the conscious individual. Designed with energy, crafted with care.
               </p>
               <div class="flex gap-4">
-                <a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
-                <a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
-                <a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+                <a class="relative h-10 w-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1" style="background-color: #3b82f6; box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);" href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook" onmouseover="this.style.backgroundColor='#2563eb'; this.style.boxShadow='0 10px 15px -3px rgba(59, 130, 246, 0.6);'" onmouseout="this.style.backgroundColor='#3b82f6'; this.style.boxShadow='0 10px 15px -3px rgba(59, 130, 246, 0.3)';">
+                  <span class="material-symbols-outlined text-xs text-white" style="pointer-events: none; user-select: none;">thumb_up</span>
+                </a>
+                <a class="relative h-10 w-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1" style="background-color: #ec4899; box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.3);" href="https://instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram" onmouseover="this.style.backgroundColor='#be185d'; this.style.boxShadow='0 10px 15px -3px rgba(236, 72, 153, 0.6);'" onmouseout="this.style.backgroundColor='#ec4899'; this.style.boxShadow='0 10px 15px -3px rgba(236, 72, 153, 0.3)';">
+                  <span class="material-symbols-outlined text-xs text-white" style="pointer-events: none; user-select: none;">photo_camera</span>
+                </a>
+                <a class="relative h-10 w-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1" style="background-color: #374151; box-shadow: 0 10px 15px -3px rgba(55, 65, 81, 0.3);" href="https://twitter.com" target="_blank" rel="noopener noreferrer" title="Twitter" onmouseover="this.style.backgroundColor='#1f2937'; this.style.boxShadow='0 10px 15px -3px rgba(55, 65, 81, 0.6);'" onmouseout="this.style.backgroundColor='#374151'; this.style.boxShadow='0 10px 15px -3px rgba(55, 65, 81, 0.3)';">
+                  <span class="material-symbols-outlined text-xs text-white" style="pointer-events: none; user-select: none;">mail</span>
+                </a>
+                <a class="relative h-10 w-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1" style="background-color: #2563eb; box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);" href="https://linkedin.com" target="_blank" rel="noopener noreferrer" title="LinkedIn" onmouseover="this.style.backgroundColor='#1d4ed8'; this.style.boxShadow='0 10px 15px -3px rgba(37, 99, 235, 0.6);'" onmouseout="this.style.backgroundColor='#2563eb'; this.style.boxShadow='0 10px 15px -3px rgba(37, 99, 235, 0.3)';">
+                  <span class="material-symbols-outlined text-xs text-white" style="pointer-events: none; user-select: none;">work</span>
+                </a>
+                <a class="relative h-10 w-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1" style="background-color: #ef4444; box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);" href="https://youtube.com" target="_blank" rel="noopener noreferrer" title="YouTube" onmouseover="this.style.backgroundColor='#dc2626'; this.style.boxShadow='0 10px 15px -3px rgba(239, 68, 68, 0.6);'" onmouseout="this.style.backgroundColor='#ef4444'; this.style.boxShadow='0 10px 15px -3px rgba(239, 68, 68, 0.3)';">
+                  <span class="material-symbols-outlined text-xs text-white" style="pointer-events: none; user-select: none;">play_circle</span>
+                </a>
               </div>
             </div>
             <div>
@@ -64,6 +76,9 @@
       }
       .fill-1 {
         font-variation-settings: 'FILL' 1;
+      }
+      .material-symbols-outlined {
+        font-size: 20px !important;
       }
     </style>
     <?php wp_footer(); ?>
