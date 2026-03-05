@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #13a4ec;
+  --color-background-light: #f6f7f8;
+  --color-background-dark: #101c22;
+  --font-display: "Work Sans", sans-serif;
+  --border-radius: 0.25rem;
+  --border-radius-lg: 0.5rem;
+  --border-radius-xl: 0.75rem;
+  --border-radius-full: 9999px;
+}
+
+/* Scroll-Triggered Animations */
+@layer components {
+  [data-scroll-animate] {
+    @apply opacity-0 translate-y-16;
+  }
+
+  [data-scroll-animate].animate-in {
+    @apply opacity-100 translate-y-0 transition-all duration-700;
+  }
+}
+    

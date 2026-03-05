@@ -1,0 +1,21 @@
+{
+  "name": "mytheme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx @tailwindcss/cli -i src/input.css -o src/output.css",
+    "watch": "npx @tailwindcss/cli -i src/input.css -o src/output.css --watch",
+    "dev": "npx @tailwindcss/cli -i src/input.css -o src/output.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.2.1",
+    "alpinejs": "^3.15.8",
+    "tailwindcss": "^4.2.1"
+  }
+}
