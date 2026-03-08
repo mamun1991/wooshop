@@ -77,6 +77,11 @@ function register_custom_menus() {
     ));
 }
 
+add_action('after_setup_theme', 'mytheme_setup');
+function mytheme_setup() {
+    add_theme_support('woocommerce');
+}
+
 function add_menu_link_class($atts, $item, $args) {
 
     if ($args->theme_location == 'header_menu') {
