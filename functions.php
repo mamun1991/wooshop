@@ -123,6 +123,19 @@ function mytheme_customize_registers($wp_customize) {
 }
 add_action('customize_register', 'mytheme_customize_registers');
 
+add_action('pre_get_posts', function($query){
+    if(!is_admin() && $query->is_main_query() && is_shop()){
+        $query->set('posts_per_page', 10);
+    }
+});
+
+// add_action('pre_get_posts', function($query){
+//     if (!is_admin() && $query->is_main_query() && is_shop()) {
+//         // Ensure paged uses query string
+//         $query->set('paged', isset($_GET['paged']) ? intval($_GET['paged']) : 1);
+//     }
+// });
+
 function mytheme_customize_register($wp_customize) {
 
     // ===========================

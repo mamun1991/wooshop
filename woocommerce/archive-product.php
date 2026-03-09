@@ -3,9 +3,9 @@ if (!defined('ABSPATH')) exit;
 get_header();
 ?>
 
-<section class="max-w-[1440px] mx-auto w-full bg-white dark:bg-slate-900/50">
+<section class="bg-white dark:bg-slate-900/50">
     <main class="flex-1">
-        <!-- Breadcrumbs & Hero Title -->
+        <!-- Breadcrumbs & Hero -->
         <div class="bg-white dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
             <div class="mx-auto max-w-[1440px] px-4 py-4 sm:px-6 lg:px-8">
                 <nav class="flex justify-end text-sm font-medium" aria-label="Breadcrumb">
@@ -25,22 +25,18 @@ get_header();
                 <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
                         <h1 class="text-4xl font-black text-slate-900 dark:text-white tracking-tight tracking-widest">All Products</h1>
-                        <!-- <p class="mt-2 text-slate-600 dark:text-slate-400 max-w-xl">Curated premium essentials designed for modern living. Quality meets aesthetic excellence in every piece.</p> -->
                     </div>
                     <?php
-                        if (is_product_category()) {
-                            global $wp_query;
-                            $total_products = $wp_query->found_posts;
-                        } else {
-                            $total_products = wp_count_posts('product')->publish;
-                        }
+                        global $wp_query;
+                        $total_products = $wp_query->found_posts ?? wp_count_posts('product')->publish;
                     ?>
                     <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                        <span class="font-semibold text-slate-900 dark:text-white"><?=  $total_products ?></span> Products found
+                        <span class="font-semibold text-slate-900 dark:text-white"><?= $total_products ?></span> Products found
                     </div>
                 </div>
             </div>
         </div>
+
         <!-- Toolbar / Filters -->
         <div class="sticky top-[73px] z-40 w-full border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-background-dark/95 backdrop-blur shadow-sm">
             <div class="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4">
@@ -61,14 +57,16 @@ get_header();
                                 'hide_empty' => true
                             ]);
                             foreach ($categories as $cat) :
+                                $cat_link = esc_url(add_query_arg('product_cat', $cat->slug, wc_get_page_permalink('shop')));
                             ?>
-                                <a href="<?php echo esc_url(get_term_link($cat)); ?>"
+                                <a href="<?= $cat_link ?>"
                                 class="block px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-700">
-                                    <?php echo esc_html($cat->name); ?>
+                                    <?= esc_html($cat->name) ?>
                                 </a>
                             <?php endforeach; ?>
                         </div>
                     </div>
+
                     <!-- PRICE FILTER -->
                     <div class="relative">
                         <button @click="price = !price; category=false"
@@ -79,48 +77,46 @@ get_header();
                         <div x-show="price" @click.outside="price=false"
                             x-transition
                             class="absolute z-50 mt-2 w-56 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg p-2">
-                            <a href="?min_price=0&max_price=50"
-                            class="block px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-700">
-                            $0 – $50
-                            </a>
-                            <a href="?min_price=50&max_price=100"
-                            class="block px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-700">
-                            $50 – $100
-                            </a>
-                            <a href="?min_price=100&max_price=200"
-                            class="block px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-700">
-                            $100 – $200
-                            </a>
-                            <a href="?min_price=200"
-                            class="block px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-700">
-                            $200+
-                            </a>
+                            <?php
+                            $prices = [
+                                ['min' => 0, 'max' => 50],
+                                ['min' => 50, 'max' => 100],
+                                ['min' => 100, 'max' => 200],
+                                ['min' => 200, 'max' => '']
+                            ];
+                            foreach ($prices as $p) :
+                                $price_args = $_GET;
+                                $price_args['min_price'] = $p['min'];
+                                if ($p['max'] !== '') $price_args['max_price'] = $p['max'];
+                                else unset($price_args['max_price']);
+                                $link = add_query_arg($price_args, wc_get_page_permalink('shop'));
+                            ?>
+                                <a href="<?= esc_url($link) ?>"
+                                class="block px-3 py-2 text-sm rounded hover:bg-slate-100 dark:hover:bg-slate-700">
+                                    <?php
+                                        if ($p['max'] === '') echo '$' . $p['min'] . '+';
+                                        else echo '$' . $p['min'] . ' – $' . $p['max'];
+                                    ?>
+                                </a>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
+
+                <!-- SORTING -->
                 <div class="flex items-center gap-4">
-                    <span class="text-sm font-medium text-slate-500 hidden sm:inline">
-                        Sort by:
-                    </span>
+                    <span class="text-sm font-medium text-slate-500 hidden sm:inline">Sort by:</span>
                     <form method="get" class="relative">
                         <select name="orderby"
                             onchange="this.form.submit()"
                             class="rounded-lg border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800 py-2 pl-4 pr-10 text-sm font-semibold focus:ring-primary focus:border-primary border-none">
-                            <option value="date" <?php selected($_GET['orderby'] ?? '', 'date'); ?>>
-                                Newest Arrivals
-                            </option>
-                            <option value="price" <?php selected($_GET['orderby'] ?? '', 'price'); ?>>
-                                Price: Low to High
-                            </option>
-                            <option value="price-desc" <?php selected($_GET['orderby'] ?? '', 'price-desc'); ?>>
-                                Price: High to Low
-                            </option>
-                            <option value="popularity" <?php selected($_GET['orderby'] ?? '', 'popularity'); ?>>
-                                Most Popular
-                            </option>
+                            <option value="date" <?= selected($_GET['orderby'] ?? '', 'date') ?>>Newest Arrivals</option>
+                            <option value="price" <?= selected($_GET['orderby'] ?? '', 'price') ?>>Price: Low to High</option>
+                            <option value="price-desc" <?= selected($_GET['orderby'] ?? '', 'price-desc') ?>>Price: High to Low</option>
+                            <option value="popularity" <?= selected($_GET['orderby'] ?? '', 'popularity') ?>>Most Popular</option>
                         </select>
                         <?php
-                        // Keep other query parameters (filters, category, price)
+                        // Keep all other filters
                         foreach ($_GET as $key => $value) {
                             if ($key !== 'orderby') {
                                 echo '<input type="hidden" name="'.esc_attr($key).'" value="'.esc_attr($value).'">';
@@ -131,113 +127,129 @@ get_header();
                 </div>
             </div>
         </div>
+
         <!-- Product Grid -->
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
             <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-5 xl:grid-cols-5">
-                <!-- Product Card 1 -->
                 <?php
-                    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+                // PAGED
+                $paged = max(1, get_query_var('paged', 1));
 
-                    $args = [
-                        'post_type' => 'product',
-                        'post_status' => 'publish',
-                        'posts_per_page' => 10, // products per page
-                        'paged' => $paged,
+                $args = [
+                    'post_type' => 'product',
+                    'post_status' => 'publish',
+                    'posts_per_page' => 10,
+                    'paged' => $paged,
+                ];
+
+                // CATEGORY
+                if (!empty($_GET['product_cat'])) {
+                    $args['tax_query'] = [[
+                        'taxonomy' => 'product_cat',
+                        'field'    => 'slug',
+                        'terms'    => sanitize_text_field($_GET['product_cat'])
+                    ]];
+                }
+
+                // PRICE
+                $meta_query = [];
+                if (isset($_GET['min_price']) || isset($_GET['max_price'])) {
+                    $min = $_GET['min_price'] ?? 0;
+                    $max = $_GET['max_price'] ?? 999999;
+                    $meta_query[] = [
+                        'key' => '_price',
+                        'value' => [$min, $max],
+                        'compare' => 'BETWEEN',
+                        'type' => 'NUMERIC'
                     ];
+                }
+                if (!empty($meta_query)) $args['meta_query'] = $meta_query;
 
-                    $loop = new \WP_Query($args);
-                    get_pagenum_link();
-                    ?>
+                // SORT
+                if (!empty($_GET['orderby'])) {
+                    switch ($_GET['orderby']) {
+                        case 'price': $args['meta_key'] = '_price'; $args['orderby'] = 'meta_value_num'; $args['order'] = 'ASC'; break;
+                        case 'price-desc': $args['meta_key'] = '_price'; $args['orderby'] = 'meta_value_num'; $args['order'] = 'DESC'; break;
+                        case 'popularity': $args['meta_key'] = 'total_sales'; $args['orderby'] = 'meta_value_num'; $args['order'] = 'DESC'; break;
+                        default: $args['orderby'] = 'date'; $args['order'] = 'DESC';
+                    }
+                }
 
-                    <?php if ( woocommerce_product_loop() ) : ?>
-                    <?php while ( have_posts() ) : the_post(); global $product; 
+                $loop = new \WP_Query($args);
 
+                if ($loop->have_posts()) :
+                    while ($loop->have_posts()) : $loop->the_post(); global $product;
                     $image_url = wp_get_attachment_url($product->get_image_id());
-                    ?>
-
-                    <div class="product-card group"
-                        data-product-id="<?php echo esc_attr($product->get_id()); ?>"
-                        data-product-name="<?php echo esc_attr($product->get_name()); ?>"
-                        data-product-price="<?php echo esc_attr($product->get_price()); ?>"
-                        data-product-image="<?php echo esc_url($image_url); ?>">
+                ?>
+                    <div class="product-card group" data-product-id="<?= esc_attr($product->get_id()) ?>" data-product-name="<?= esc_attr($product->get_name()) ?>" data-product-price="<?= esc_attr($product->get_price()) ?>" data-product-image="<?= esc_url($image_url) ?>">
                         <div class="relative aspect-[3/4] rounded-2xl overflow-hidden mb-4 bg-slate-100 dark:bg-slate-800">
-                            <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110"
-                                style='background-image:url("<?php echo esc_url($image_url); ?>")'>
-                            </div>
-                            <button
-                                @click="addToCart(<?php echo $product->get_id(); ?>)"
-                                class="add-to-cart-btn absolute bottom-4 right-4 h-12 w-12 bg-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 duration-300 hover:scale-110 hover:bg-primary hover:text-white cursor-pointer"
-                                title="Click to add to cart">
+                            <div class="w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110" style="background-image:url('<?= esc_url($image_url) ?>')"></div>
+                            <button @click="addToCart(<?= $product->get_id() ?>)" class="add-to-cart-btn absolute bottom-4 right-4 h-12 w-12 bg-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 duration-300 hover:scale-110 hover:bg-primary hover:text-white cursor-pointer">
                                 <span class="material-symbols-outlined">add_shopping_cart</span>
                             </button>
                         </div>
-                        <a href="<?php the_permalink(); ?>"
-                            class="font-bold text-lg text-slate-900 hover:text-primary dark:text-slate-100">
-                            <?php the_title(); ?>
-                        </a>
-                        <p class="text-primary font-bold">
-                            <?php echo $product->get_price_html(); ?>
-                        </p>
+                        <a href="<?php the_permalink() ?>" class="font-bold text-lg text-slate-900 hover:text-primary dark:text-slate-100"><?php the_title() ?></a>
+                        <p class="text-primary font-bold"><?php echo $product->get_price_html() ?></p>
                     </div>
-                    <?php endwhile; ?>
-                <?php endif; ?>
+                <?php
+                    endwhile;
+                endif;
+                wp_reset_postdata();
+                ?>
             </div>
-            <div class="mt-16 flex items-center justify-center gap-4">
+
             <!-- Pagination -->
-            <?php
-        // Tailwind-style pagination for custom WP_Query
-        $total_pages = $loop->max_num_pages;
-        if ($total_pages > 1):
-            $pages_to_show = 2; // pages before/after current
-            $ellipsis_shown = false;
+            <div class="flex justify-center mt-12">
+                <?php
+                    $max_pages = ceil($total_products / $args['posts_per_page']);
+                    // Use $max_pages in paginate_links
+                    // Get pagination links
+                        $pagination_links = paginate_links([
+                            'base' => str_replace(999999999, '%#%', esc_url(get_pagenum_link(999999999))),
+                            'format' => '?paged=%#%',
+                            'current' => $paged,
+                            'total' => $max_pages,
+                            'prev_text' => '<span class="material-symbols-outlined">chevron_left</span>',
+                            'next_text' => '<span class="material-symbols-outlined">chevron_right</span>',
+                            'add_args' => $_GET,
+                            'type' => 'array', // get array of links
+                        ]);
 
-            // Previous button
-           if ($paged == 1) {
-                // Disabled previous
-                echo '<span class="flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 p-2 opacity-50 cursor-not-allowed">
-                        <span class="material-symbols-outlined">chevron_left</span>
-                    </span>';
-            } else {
-                $prev_link = get_pagenum_link($paged - 1);
-                echo '<a href="'.esc_url($prev_link).'" class="flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 p-2 hover:bg-slate-100 dark:hover:bg-slate-800">
-                        <span class="material-symbols-outlined">chevron_left</span>
-                    </a>';
-            }
+                        if ($pagination_links) :
+                        ?>
+                        <div class="flex justify-center mt-12 gap-2 flex-wrap">
+                            <?php foreach ($pagination_links as $link) : ?>
+                                <?php
+                                // Default classes for <a> links
+                                $a_classes = 'px-4 py-2 rounded-lg border border-slate-200 text-slate-800 bg-white hover:bg-primary hover:text-white transition-all shadow-sm';
 
-            // Page numbers
-            echo '<div class="flex items-center gap-2">';
-            for ($i = 1; $i <= $total_pages; $i++) {
-                if ($i == 1 || $i == $total_pages || ($i >= $paged - $pages_to_show && $i <= $paged + $pages_to_show)) {
-                    $active_class = ($i == $paged) ? 'bg-primary text-white font-bold' : 'hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold';
-                    echo '<a href="'.get_pagenum_link($i).'" class="flex size-10 items-center justify-center rounded-lg '.$active_class.'">'.$i.'</a>';
-                    $ellipsis_shown = false;
-                } else {
-                    if (!$ellipsis_shown) {
-                        echo '<span class="px-2 text-slate-400">...</span>';
-                        $ellipsis_shown = true;
-                    }
-                }
-            }
-            echo '</div>';
+                                // Current page styling
+                                if (strpos($link, 'current') !== false) {
+                                    $a_classes = 'px-4 py-2 rounded-lg bg-primary text-white font-semibold shadow-lg cursor-default';
+                                    // Remove the original "current" class to prevent conflicts
+                                    $link = preg_replace('/\s?current/', '', $link);
+                                    // Wrap in span so it’s not clickable
+                                    echo '<span class="' . $a_classes . '">' . $link . '</span>';
+                                    continue;
+                                }
 
-            // Next button
-            if ($paged == $total_pages) {
-                // Disabled next
-                echo '<span class="flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 p-2 opacity-50 cursor-not-allowed">
-                        <span class="material-symbols-outlined">chevron_right</span>
-                    </span>';
-            } else {
-                $next_link = get_pagenum_link($paged + 1);
-                echo '<a href="'.esc_url($next_link).'" class="flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 p-2 hover:bg-slate-100 dark:hover:bg-slate-800">
-                        <span class="material-symbols-outlined">chevron_right</span>
-                    </a>';
-            }
-        endif;
+                                // Dots styling (non-clickable)
+                                if (strpos($link, 'dots') !== false) {
+                                    $a_classes = 'px-4 py-2 rounded-lg text-gray-400 cursor-default bg-white border border-slate-200';
+                                    echo '<span class="' . $a_classes . '">' . $link . '</span>';
+                                    continue;
+                                }
 
-        // Reset post data
-        wp_reset_postdata();
-        ?>
-        </div>
+                                // Normal link
+                                // Inject classes directly into <a> tag
+                                $link = preg_replace('/(<a\s+)/', '$1class="' . $a_classes . '" ', $link, 1);
+                                echo $link;
+                                ?>
+                            <?php endforeach; ?>
+                        </div>
+                        <?php endif; ?>
+            </div>
+
         </div>
     </main>
 </section>
