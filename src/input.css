@@ -21,4 +21,116 @@
     @apply opacity-100 translate-y-0 transition-all duration-700;
   }
 }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-card {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .product-card {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.product-card {
+  animation: slideInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+/* Smooth scroll for horizontal scrolling */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .no-scrollbar {
+    scroll-behavior: smooth;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-scroll-animate] {
+  animation: slideInUp 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+[data-scroll-animate]:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+[data-scroll-animate]:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+[data-scroll-animate]:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Enhanced hover effects */
+.group:hover {
+  transform: translateY(-8px);
+  transition: transform 0.3s ease-out;
+}
+
+/* Smooth gradient animation on hover */
+.group:hover .absolute:first-child {
+  animation: gradientShift 0.6s ease-out forwards;
+}
+
+@keyframes gradientShift {
+  0% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.95;
+  }
+}
+
     

@@ -64,6 +64,12 @@ function theme_assets() {
         null,
         true
     );
+    
+     wp_localize_script('theme-main', 'siteConfig', [
+        'storeApi' => home_url('/wp-json/wc/store'),
+        'nonce' => wp_create_nonce('wc_store_api'),
+        'ajaxUrl'  => admin_url('admin-ajax.php')
+    ]);
 }
 add_action('wp_enqueue_scripts', 'theme_assets');
 
@@ -203,6 +209,31 @@ function mytheme_customize_register($wp_customize) {
 
 }
 add_action('customize_register', 'mytheme_customize_register');
+
+add_action('wp_ajax_update_cart_item', 'theme_update_cart_item');
+add_action('wp_ajax_nopriv_update_cart_item', 'theme_update_cart_item');
+
+function theme_update_cart_item() {
+
+    if ( ! isset($_POST['cart_item_key']) || ! isset($_POST['quantity']) ) {
+        wp_send_json_error();
+    }
+
+    $cart_item_key = sanitize_text_field($_POST['cart_item_key']);
+    $quantity      = intval($_POST['quantity']);
+
+    if ($quantity < 1) {
+        WC()->cart->remove_cart_item($cart_item_key);
+    } else {
+        WC()->cart->set_quantity($cart_item_key, $quantity, true);
+    }
+
+    WC()->cart->calculate_totals();
+
+    wp_send_json_success([
+        'count' => WC()->cart->get_cart_contents_count()
+    ]);
+}
 
 
 

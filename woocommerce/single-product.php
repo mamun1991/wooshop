@@ -109,11 +109,11 @@
                 data-product-name="<?php echo esc_attr($product->get_name()); ?>"
                 data-product-price="<?php echo esc_attr($product->get_price()); ?>"
                 data-product-image="<?php echo esc_url($main_image); ?>">
-                <button class="flex-1 bg-primary hover:bg-primary/90 cursor-pointer text-white font-bold py-4 px-8 rounded-xl transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                <button @click="addToCart(<?= $product->get_id() ?>)" class="flex-1 bg-primary hover:bg-primary/90 cursor-pointer text-white font-bold py-4 px-8 rounded-xl transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
                     <span class="material-symbols-outlined">shopping_bag</span>
                     Add to Cart
                 </button>
-                <button class="px-8 py-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all text-slate-600 dark:text-slate-400">
+                <button @click="addToWishlist(<?= $product->get_id() ?>)" class="px-8 py-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all text-slate-600 dark:text-slate-400">
                     <span class="material-symbols-outlined">favorite</span>
                 </button>
             </div>
@@ -168,68 +168,46 @@
     <section class="mt-24" data-scroll-animate>
         <div class="flex items-center justify-between mb-8">
             <h2 class="text-2xl font-black text-slate-900 dark:text-slate-100">Complete the Look</h2>
-            <a class="text-primary font-bold hover:underline flex items-center gap-1" href="#">
+            <a class="text-primary font-bold hover:underline flex items-center gap-1" href="<?= esc_url( wc_get_page_permalink('shop') ) ?>">
                 Shop all
                 <span class="material-symbols-outlined text-base">arrow_forward</span>
             </a>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- Product Card -->
-            <div class="group flex flex-col gap-4">
-                <div class="relative aspect-[4/5] bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden">
-                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Matching leather wallet minimalist design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUB18KTmSntZk0DvP1G7OrrLj88Z4up-mGLgUF9f1GRaZBjN4ezOGfUPzOtevv8SrowQ60YhLVf1c9pivL9TgxceXPStaE4l3NXYNkbUVX6V3-ydgoFEUFH0pQgg6RxUsnFfY2B6mjh7mffpr6BZ0SamCsT9-MfaWcjsRM9Or37HOpRFvwOEwn2NUCels_OHbUN6_WaBKdGD8gUqaoBxjKeOnZ9gSG6ZoHT8xW8sGLtM9IBvpERfRWe-NVoygwiCz8eL21q7VRTTY" />
-                    <button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-black/80 rounded-full text-slate-900 dark:text-slate-100 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span class="material-symbols-outlined text-sm">favorite</span>
-                    </button>
-                </div>
-                <div>
-                    <h3 class="font-bold text-slate-900 dark:text-slate-100">Slim Leather Wallet</h3>
-                    <p class="text-slate-500 text-sm mb-2">Essential Cognac</p>
-                    <p class="text-primary font-bold">$79.00</p>
-                </div>
-            </div>
-            <!-- Product Card -->
-            <div class="group flex flex-col gap-4">
-                <div class="relative aspect-[4/5] bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden">
-                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Minimalist luxury chronograph watch" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPGLC-oe_iRcOWjT0Q2_cS_WFsVb38gm3wLGsyAU_1q8tkNGDjBz6IpS5S-CluMrWcuqaSbnbwMbXYuyqM9MOoFBeqW8QpAXTThoFIRD9HKAYWY5DHVMkWSwUxgyM1WlQcT8mlY-mypQTQp5hHKkrCvQD6cuZt_rcYMVrfqDKaM-2f5z8lGhqST0_OUYHhHmBsaoq_BIBWlynT400C04brpaaFM7BE1tRthC5L4pPCYhEhiAWVq-J4oN9CDAMwKM6-VH5ydK9bKYI" />
-                    <button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-black/80 rounded-full text-slate-900 dark:text-slate-100 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span class="material-symbols-outlined text-sm">favorite</span>
-                    </button>
-                </div>
-                <div>
-                    <h3 class="font-bold text-slate-900 dark:text-slate-100">Minimalist Chrono</h3>
-                    <p class="text-slate-500 text-sm mb-2">Titanium / Black</p>
-                    <p class="text-primary font-bold">$189.00</p>
-                </div>
-            </div>
-            <!-- Product Card -->
-            <div class="group flex flex-col gap-4">
-                <div class="relative aspect-[4/5] bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden">
-                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Leather notebook cover with gold embossing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXIjpPn7c1cTgAYrqmyyIYYbcSNdeEF_Y7DLBIacBXwuIj8JBikqPiTIdUgvh7PpdSvUoT6MTau36vyPkNxxLbHHoa_KQL6kk04gBTF3gmaUPzeCuRr-0OGrsBMPYV3S0R-vBV1a8LYhcKs2jlG7ubTmWNv1Qr7LtiWRAYbjYZ1DVa49y0FnpV-jbbuvMbleg2M66_O_N4V1DRUBgrr2609j1_qCj_Rwc3EIJFks5Wxlk-AqIRV9jH_a-uzcw8ajhczmh7uMBg1NE" />
-                    <button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-black/80 rounded-full text-slate-900 dark:text-slate-100 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span class="material-symbols-outlined text-sm">favorite</span>
-                    </button>
-                </div>
-                <div>
-                    <h3 class="font-bold text-slate-900 dark:text-slate-100">Executive Folio</h3>
-                    <p class="text-slate-500 text-sm mb-2">Grain Leather</p>
-                    <p class="text-primary font-bold">$120.00</p>
-                </div>
-            </div>
-            <!-- Product Card -->
-            <div class="group flex flex-col gap-4">
-                <div class="relative aspect-[4/5] bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden">
-                    <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Brushed metal reusable water bottle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKan_BT-titzD1EqnaZYGEO9Z2eAgCGe391jpAHS3kZ88p7R5jMU6Fwyv3-eG7LgYMC0xJtO63AHdxs1xTPYZSvo0_y8BDQTBXaMok6bYBR_jRHQibVE23Wt8Zm_moaBphgPP2VP26jGzUl2Ee5IVVI1_9Ppelcg1_r4cTajSO86Yuaoqz0xhNluRYw1JqJ2iqQUk9ObmYD--1_d54FjMrzkuQ3MZBMoR5X7MIYirdgSalICk3RWCYUrj3Sexu-URqEFGe7d46emw" />
-                    <button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-black/80 rounded-full text-slate-900 dark:text-slate-100 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span class="material-symbols-outlined text-sm">favorite</span>
-                    </button>
-                </div>
-                <div>
-                    <h3 class="font-bold text-slate-900 dark:text-slate-100">Luxe Hydro Bottle</h3>
-                    <p class="text-slate-500 text-sm mb-2">Brushed Steel</p>
-                    <p class="text-primary font-bold">$45.00</p>
-                </div>
-            </div>
+             <?php
+                // Get the current global product
+                global $product;
+
+                // Get related products (or use $product->get_upsell_ids() / $product->get_cross_sell_ids() as needed)
+                $related_ids = wc_get_related_products( $product->get_id(), 4 ); // 4 products max
+
+                if ( $related_ids ) :
+                    foreach ( $related_ids as $related_id ) :
+                        $related_product = wc_get_product( $related_id );
+                        if ( ! $related_product || ! $related_product->is_visible() ) continue;
+
+                        $image_url = wp_get_attachment_url( $related_product->get_image_id() );
+                        $title = $related_product->get_name();
+                        $price_html = $related_product->get_price_html();
+                        $permalink = get_permalink( $related_id );
+                ?>
+                    <div class="group flex flex-col gap-4">
+                        <div class="relative aspect-[4/5] bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Matching leather wallet minimalist design" src="<?= esc_url($image_url) ?>" alt="<?= esc_attr($title) ?>" />
+                            <button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-black/80 rounded-full text-slate-900 dark:text-slate-100 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span class="material-symbols-outlined text-sm">favorite</span>
+                            </button>
+                        </div>
+                        <div class="">
+                            <a href="<?= esc_url($permalink) ?>" class="font-bold text-slate-900 hover:text-primary dark:text-slate-100"><?= esc_html($title) ?></a>
+                            <p class="text-primary font-bold"><?= $price_html ?></p>
+                        </div>
+                    </div> 
+                <?php
+                    endforeach;
+                endif;
+                ?>
         </div>
     </section>
 </main>
