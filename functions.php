@@ -10,17 +10,34 @@ function crb_attach_theme_options() {
             Field::make( 'text', 'crb_text', 'Text Field' ),
         ) );    
 
-        Container::make( 'theme_options', __( 'Social Media' ) )
+   Container::make( 'theme_options', __( 'Social Media' ) )
+    ->add_fields( array(
+        Field::make( 'complex', 'crb_social_links', __( 'Social Media Links' ) )
+            ->set_layout( 'tabbed-vertical' )
+            ->setup_labels( array(
+                'plural_name'   => 'Links',
+                'singular_name' => 'Link',
+            ) )
             ->add_fields( array(
-                Field::make( 'text', 'crb_facebook_url', __( 'Facebook URL' ) ),
-                Field::make( 'text', 'crb_twitter_url', __( 'Twitter URL' ) ),
-                Field::make( 'text', 'crb_instagram_url', __( 'Instagram URL' ) ),
-            ) );
+                Field::make( 'select', 'platform', __( 'Platform' ) )
+                    ->add_options( array(
+                        'facebook'  => 'Facebook',
+                        'instagram' => 'Instagram',
+                        'twitter'   => 'Twitter / X',
+                        'linkedin'  => 'LinkedIn',
+                        'youtube'   => 'YouTube',
+                        'tiktok'    => 'TikTok',
+                        'pinterest' => 'Pinterest',
+                    ) ),
+                Field::make( 'text', 'url', __( 'URL' ) )
+                    ->set_attribute( 'placeholder', 'https://...' ),
+            ) ),
+    ) );
 
-        Container::make('nav_menu_item', __('Menu Settings'))
-            ->add_fields(array(
-                Field::make('color', 'crb_color', __('Menu Color')),
-            ));
+    Container::make('nav_menu_item', __('Menu Settings'))
+        ->add_fields(array(
+            Field::make('color', 'crb_color', __('Menu Color')),
+        ));
 }
 
 add_action('after_setup_theme', 'crb_load');
@@ -134,13 +151,6 @@ add_action('pre_get_posts', function($query){
         $query->set('posts_per_page', 10);
     }
 });
-
-// add_action('pre_get_posts', function($query){
-//     if (!is_admin() && $query->is_main_query() && is_shop()) {
-//         // Ensure paged uses query string
-//         $query->set('paged', isset($_GET['paged']) ? intval($_GET['paged']) : 1);
-//     }
-// });
 
 function mytheme_customize_register($wp_customize) {
 

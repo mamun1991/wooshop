@@ -11,22 +11,96 @@
               <p class="text-slate-500 dark:text-slate-400 max-w-sm mb-8">
                 Modern lifestyle essentials for the conscious individual. Designed with energy, crafted with care.
               </p>
+              <?php
+                // Define all platform styles & icons in one place
+                $platform_config = array(
+                    'facebook'  => array(
+                        'bg'         => '#3b82f6',
+                        'bg_hover'   => '#2563eb',
+                        'shadow'     => 'rgba(59, 130, 246, 0.3)',
+                        'shadow_hover' => 'rgba(59, 130, 246, 0.6)',
+                        'icon'       => 'thumb_up',
+                        'label'      => 'Facebook',
+                    ),
+                    'instagram' => array(
+                        'bg'         => '#ec4899',
+                        'bg_hover'   => '#be185d',
+                        'shadow'     => 'rgba(236, 72, 153, 0.3)',
+                        'shadow_hover' => 'rgba(236, 72, 153, 0.6)',
+                        'icon'       => 'photo_camera',
+                        'label'      => 'Instagram',
+                    ),
+                    'twitter'   => array(
+                        'bg'         => '#374151',
+                        'bg_hover'   => '#1f2937',
+                        'shadow'     => 'rgba(55, 65, 81, 0.3)',
+                        'shadow_hover' => 'rgba(55, 65, 81, 0.6)',
+                        'icon'       => 'mail',
+                        'label'      => 'Twitter / X',
+                    ),
+                    'linkedin'  => array(
+                        'bg'         => '#2563eb',
+                        'bg_hover'   => '#1d4ed8',
+                        'shadow'     => 'rgba(37, 99, 235, 0.3)',
+                        'shadow_hover' => 'rgba(37, 99, 235, 0.6)',
+                        'icon'       => 'work',
+                        'label'      => 'LinkedIn',
+                    ),
+                    'youtube'   => array(
+                        'bg'         => '#ef4444',
+                        'bg_hover'   => '#dc2626',
+                        'shadow'     => 'rgba(239, 68, 68, 0.3)',
+                        'shadow_hover' => 'rgba(239, 68, 68, 0.6)',
+                        'icon'       => 'play_circle',
+                        'label'      => 'YouTube',
+                    ),
+                    'tiktok'    => array(
+                        'bg'         => '#000000',
+                        'bg_hover'   => '#1a1a1a',
+                        'shadow'     => 'rgba(0, 0, 0, 0.3)',
+                        'shadow_hover' => 'rgba(0, 0, 0, 0.6)',
+                        'icon'       => 'music_note',
+                        'label'      => 'TikTok',
+                    ),
+                    'pinterest' => array(
+                        'bg'         => '#e11d48',
+                        'bg_hover'   => '#be123c',
+                        'shadow'     => 'rgba(225, 29, 72, 0.3)',
+                        'shadow_hover' => 'rgba(225, 29, 72, 0.6)',
+                        'icon'       => 'push_pin',
+                        'label'      => 'Pinterest',
+                    ),
+                );
+
+                $social_links = carbon_get_theme_option( 'crb_social_links' );
+                ?>
+
               <div class="flex gap-4">
-                <a class="relative h-10 w-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1" style="background-color: #3b82f6; box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);" href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook" onmouseover="this.style.backgroundColor='#2563eb'; this.style.boxShadow='0 10px 15px -3px rgba(59, 130, 246, 0.6);'" onmouseout="this.style.backgroundColor='#3b82f6'; this.style.boxShadow='0 10px 15px -3px rgba(59, 130, 246, 0.3)';">
-                  <span class="material-symbols-outlined text-xs text-white" style="pointer-events: none; user-select: none;">thumb_up</span>
-                </a>
-                <a class="relative h-10 w-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1" style="background-color: #ec4899; box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.3);" href="https://instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram" onmouseover="this.style.backgroundColor='#be185d'; this.style.boxShadow='0 10px 15px -3px rgba(236, 72, 153, 0.6);'" onmouseout="this.style.backgroundColor='#ec4899'; this.style.boxShadow='0 10px 15px -3px rgba(236, 72, 153, 0.3)';">
-                  <span class="material-symbols-outlined text-xs text-white" style="pointer-events: none; user-select: none;">photo_camera</span>
-                </a>
-                <a class="relative h-10 w-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1" style="background-color: #374151; box-shadow: 0 10px 15px -3px rgba(55, 65, 81, 0.3);" href="https://twitter.com" target="_blank" rel="noopener noreferrer" title="Twitter" onmouseover="this.style.backgroundColor='#1f2937'; this.style.boxShadow='0 10px 15px -3px rgba(55, 65, 81, 0.6);'" onmouseout="this.style.backgroundColor='#374151'; this.style.boxShadow='0 10px 15px -3px rgba(55, 65, 81, 0.3)';">
-                  <span class="material-symbols-outlined text-xs text-white" style="pointer-events: none; user-select: none;">mail</span>
-                </a>
-                <a class="relative h-10 w-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1" style="background-color: #2563eb; box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);" href="https://linkedin.com" target="_blank" rel="noopener noreferrer" title="LinkedIn" onmouseover="this.style.backgroundColor='#1d4ed8'; this.style.boxShadow='0 10px 15px -3px rgba(37, 99, 235, 0.6);'" onmouseout="this.style.backgroundColor='#2563eb'; this.style.boxShadow='0 10px 15px -3px rgba(37, 99, 235, 0.3)';">
-                  <span class="material-symbols-outlined text-xs text-white" style="pointer-events: none; user-select: none;">work</span>
-                </a>
-                <a class="relative h-10 w-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1" style="background-color: #ef4444; box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);" href="https://youtube.com" target="_blank" rel="noopener noreferrer" title="YouTube" onmouseover="this.style.backgroundColor='#dc2626'; this.style.boxShadow='0 10px 15px -3px rgba(239, 68, 68, 0.6);'" onmouseout="this.style.backgroundColor='#ef4444'; this.style.boxShadow='0 10px 15px -3px rgba(239, 68, 68, 0.3)';">
-                  <span class="material-symbols-outlined text-xs text-white" style="pointer-events: none; user-select: none;">play_circle</span>
-                </a>
+                <?php if ( ! empty( $social_links ) ) : ?>
+                    <?php foreach ( $social_links as $link ) :
+                        $platform = $link['platform'];
+                        $url      = $link['url'];
+
+                        // Skip if URL is empty or platform not configured
+                        if ( empty( $url ) || ! isset( $platform_config[ $platform ] ) ) continue;
+
+                        $config = $platform_config[ $platform ];
+                    ?>
+                        <a  class="relative h-10 w-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:-translate-y-1"
+                            style="background-color: <?php echo $config['bg']; ?>; box-shadow: 0 10px 15px -3px <?php echo $config['shadow']; ?>;"
+                            href="<?php echo esc_url( $url ); ?>"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="<?php echo esc_attr( $config['label'] ); ?>"
+                            onmouseover="this.style.backgroundColor='<?php echo $config['bg_hover']; ?>'; this.style.boxShadow='0 10px 15px -3px <?php echo $config['shadow_hover']; ?>';"
+                            onmouseout="this.style.backgroundColor='<?php echo $config['bg']; ?>'; this.style.boxShadow='0 10px 15px -3px <?php echo $config['shadow']; ?>';"
+                        >
+                            <span class="material-symbols-outlined text-xs text-white" style="pointer-events: none; user-select: none;">
+                                <?php echo esc_html( $config['icon'] ); ?>
+                            </span>
+                        </a>
+                    <?php endforeach; ?>
+                <?php endif; ?>
               </div>
             </div>
             <div>

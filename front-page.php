@@ -652,8 +652,8 @@
         <h2 class="text-3xl md:text-4xl font-black mb-4">Join the Vibe Tribe</h2>
         <p class="text-white/80 mb-8 text-lg">Subscribe for early access to new drops, exclusive discounts, and a weekly dose of inspiration.</p>
         <form class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-          <input class="flex-1 px-6 py-4 rounded-xl text-slate-900 border-none focus:ring-4 focus:ring-white/20 outline-none" placeholder="Enter your email" required="" type="email" />
-          <button class="bg-slate-900 text-white font-bold px-8 py-4 rounded-xl hover:bg-slate-800 transition-all" type="submit">Subscribe</button>
+          <input class="flex-1 px-6 py-4 rounded-lg text-slate-900 border border-slate-300 focus:ring-4 focus:ring-white/20 outline-none" placeholder="Enter your email" required="" type="email" />
+          <button class="bg-slate-900 text-white font-bold px-8 py-4 rounded-lg hover:bg-slate-800 transition-all" type="submit">Subscribe</button>
         </form>
         <p class="mt-4 text-xs text-white/60">By subscribing, you agree to our Privacy Policy and Terms of Service.</p>
       </div>

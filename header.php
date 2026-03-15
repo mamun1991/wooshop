@@ -40,10 +40,13 @@
                         </div>
                     </label>
                     <div class="flex gap-2">
-                        <button class="relative flex items-center justify-center rounded-lg h-10 w-10 bg-slate-200/50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 hover:bg-primary/20 transition-colors" @click="cartOpen = true">
+                        <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" 
+                        class="relative flex items-center justify-center rounded-lg h-10 w-10 bg-slate-200/50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 hover:bg-primary/20 transition-colors">
                             <span class="material-symbols-outlined">shopping_cart</span>
-                            <span class="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center" x-show="cartCount > 0" x-text="cartCount"></span>
-                        </button>
+                            <span class="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center" 
+                                x-show="cartCount > 0" 
+                                x-text="cartCount"></span>
+                        </a>
                         <button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-200/50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 hover:bg-primary/20 transition-colors">
                             <span class="material-symbols-outlined">person</span>
                         </button>
@@ -154,7 +157,7 @@
                             <span x-html="(totals.total_price / 100).toFixed(2)" class="text-base font-bold text-neutral-900"></span>
                         </div>
 
-                        <a href="/checkout"
+                        <a href="<?= esc_url(wc_get_checkout_url()) ?>"
                             class="flex items-center justify-center gap-2 w-full bg-primary hover:bg-opacity-90 hover:brightness-90 hover:scale-95 text-white text-sm font-semibold py-4 rounded-2xl transition-colors duration-500 shadow-md hover:shadow-lg">
                             <span>Proceed to Checkout</span>
                             <span class="material-symbols-outlined text-base">arrow_forward</span>
